@@ -1,6 +1,39 @@
+import {
+  faCheckCircle,
+  faExclamationCircle,
+  faSyncAlt,
+  faTrashAlt,
+} from "@fortawesome/free-solid-svg-icons";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import React from "react";
 import { useSetRecoilState } from "recoil";
+import styled from "styled-components";
 import { Categories, IToDo, toDoState } from "../atom";
+
+const ToDoItem = styled.li`
+  display: flex;
+  justify-content: space-between;
+  padding: 10px;
+`;
+
+const SpanText = styled.span`
+  margin-right: 20px;
+  max-width: 70%;
+  overflow-x: scroll;
+`;
+
+const BtnContainer = styled.div``;
+
+const ToDoBtn = styled.button`
+  border: none;
+  background-color: transparent;
+  svg {
+    color: ${(props) => props.theme.textColor};
+    &:hover {
+      color: ${(props) => props.theme.accentColor};
+    }
+  }
+`;
 
 function ToDo({ text, category, id }: IToDo) {
   let targetIndex: number;
@@ -24,32 +57,36 @@ function ToDo({ text, category, id }: IToDo) {
     } = event;
     setToDos((prevToDos) => {
       const deletedToDos = prevToDos.filter(
-        (toDos) => toDos.id !== Number(parentElement?.id)
+        (toDos) => toDos.id !== Number(parentElement?.parentElement?.id)
       );
 
       return deletedToDos;
     });
   };
   return (
-    <li id={id as any}>
-      <span>{text}</span>
-      {category !== Categories.DOING && (
-        <button name={Categories.DOING} onClick={onClick}>
-          Doing
-        </button>
-      )}
-      {category !== Categories.TO_DO && (
-        <button name={Categories.TO_DO} onClick={onClick}>
-          To Do
-        </button>
-      )}
-      {category !== Categories.DONE && (
-        <button name={Categories.DONE} onClick={onClick}>
-          Done
-        </button>
-      )}
-      <button onClick={onDelete}>Delete</button>
-    </li>
+    <ToDoItem id={id as any}>
+      <SpanText>{text}</SpanText>
+      <BtnContainer>
+        {category !== Categories.DOING && (
+          <ToDoBtn name={Categories.DOING} onClick={onClick}>
+            <FontAwesomeIcon icon={faSyncAlt} />
+          </ToDoBtn>
+        )}
+        {category !== Categories.TO_DO && (
+          <ToDoBtn name={Categories.TO_DO} onClick={onClick}>
+            <FontAwesomeIcon icon={faExclamationCircle} />
+          </ToDoBtn>
+        )}
+        {category !== Categories.DONE && (
+          <ToDoBtn name={Categories.DONE} onClick={onClick}>
+            <FontAwesomeIcon icon={faCheckCircle} />
+          </ToDoBtn>
+        )}
+        <ToDoBtn onClick={onDelete}>
+          <FontAwesomeIcon icon={faTrashAlt} />
+        </ToDoBtn>
+      </BtnContainer>
+    </ToDoItem>
   );
 }
 
