@@ -20,6 +20,11 @@ const SpanText = styled.span`
   margin-right: 20px;
   max-width: 70%;
   overflow-x: scroll;
+  -ms-overflow-style: none;
+  scrollbar-width: none;
+  ::-webkit-scrollbar {
+    display: none;
+  }
 `;
 
 const BtnContainer = styled.div``;
@@ -31,6 +36,7 @@ const ToDoBtn = styled.button`
     color: ${(props) => props.theme.textColor};
     &:hover {
       color: ${(props) => props.theme.accentColor};
+      cursor: pointer;
     }
   }
 `;

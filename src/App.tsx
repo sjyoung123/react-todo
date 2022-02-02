@@ -1,6 +1,8 @@
-import React from "react";
-import { createGlobalStyle } from "styled-components";
+import React, { useState } from "react";
+import { createGlobalStyle, ThemeProvider } from "styled-components";
 import TodoList from "./components/TodoList";
+import { darkTheme, lightTheme } from "./theme";
+import DarkModeToggle from "react-dark-mode-toggle";
 
 const GlobalStyle = createGlobalStyle`
 html, body, div, span, applet, object, iframe,
@@ -68,10 +70,14 @@ a {
 `;
 
 function App() {
+  const [isDark, setIsDark] = useState(() => true);
   return (
     <>
-      <GlobalStyle />
-      <TodoList />
+      <ThemeProvider theme={isDark ? darkTheme : lightTheme}>
+        <DarkModeToggle size={80} checked={isDark} onChange={setIsDark} />
+        <GlobalStyle />
+        <TodoList />
+      </ThemeProvider>
     </>
   );
 }

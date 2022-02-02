@@ -35,6 +35,9 @@ const PlusBtn = styled.label`
   border: none;
   background-color: transparent;
   color: ${(props) => props.theme.textColor};
+  :hover {
+    cursor: pointer;
+  }
 `;
 
 interface IForm {
